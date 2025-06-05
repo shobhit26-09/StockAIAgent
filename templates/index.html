@@ -10,40 +10,29 @@
         body {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
         }
         .card {
             border-radius: 15px;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             border: none;
-            transition: transform 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
         }
         .card-header {
             border-radius: 15px 15px 0 0 !important;
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             color: white;
             font-weight: bold;
-            padding: 1rem 1.5rem;
         }
         .btn-primary {
             background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
             border: none;
-            padding: 0.5rem 1.5rem;
-        }
-        .btn-primary:hover {
-            opacity: 0.9;
         }
         .recommendation {
             font-size: 1.5rem;
             font-weight: bold;
-            padding: 15px;
+            padding: 10px;
             border-radius: 10px;
             text-align: center;
-            margin: 10px 0;
         }
         .strong-buy {
             background-color: #28a745;
@@ -66,27 +55,25 @@
             color: white;
         }
         .technical-indicator {
-            padding: 12px 15px;
+            padding: 10px;
             margin-bottom: 10px;
             border-radius: 8px;
             background-color: white;
-            border-left: 3px solid #6a11cb;
         }
         .financial-metric {
-            padding: 12px 15px;
+            padding: 10px;
             margin-bottom: 10px;
             border-radius: 8px;
             background-color: white;
-            border-left: 3px solid #2575fc;
         }
         .company-summary {
             font-size: 0.95rem;
-            line-height: 1.7;
+            line-height: 1.6;
         }
         .loading {
             display: none;
             text-align: center;
-            padding: 40px;
+            padding: 20px;
         }
         .result-section {
             display: none;
@@ -94,68 +81,21 @@
         .highlight-box {
             background-color: #f1f8ff;
             border-left: 4px solid #2575fc;
-            padding: 20px;
-            margin-bottom: 25px;
+            padding: 15px;
+            margin-bottom: 20px;
             border-radius: 0 8px 8px 0;
         }
         .ai-analysis {
             background-color: #f8f9fa;
             border-left: 4px solid #6a11cb;
-            padding: 20px;
-            margin: 25px 0;
+            padding: 15px;
+            margin: 20px 0;
             border-radius: 0 8px 8px 0;
             font-size: 0.95rem;
-            line-height: 1.7;
+            line-height: 1.6;
         }
         .ai-analysis h5 {
             color: #6a11cb;
-            margin-bottom: 15px;
-        }
-        .analysis-section {
-            margin-bottom: 15px;
-        }
-        .analysis-section h6 {
-            font-weight: 600;
-            color: #495057;
-            margin-bottom: 8px;
-        }
-        .analysis-section p {
-            margin-bottom: 0;
-        }
-        .price-change {
-            font-weight: bold;
-        }
-        .positive {
-            color: #28a745;
-        }
-        .negative {
-            color: #dc3545;
-        }
-        .neutral {
-            color: #6c757d;
-        }
-        .metric-label {
-            font-weight: 500;
-            color: #495057;
-        }
-        .metric-value {
-            font-weight: 600;
-        }
-        .spinner-border {
-            width: 3rem;
-            height: 3rem;
-        }
-        .form-control:focus {
-            border-color: #6a11cb;
-            box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
-        }
-        .stock-name {
-            font-weight: 700;
-            color: #343a40;
-        }
-        .last-updated {
-            font-size: 0.85rem;
-            color: #6c757d;
         }
     </style>
 </head>
@@ -169,15 +109,13 @@
                     </div>
                     <div class="card-body">
                         <form id="stockForm">
-                            <div class="mb-4">
-                                <label for="stockSymbol" class="form-label fw-bold">Enter NSE Stock Symbol</label>
+                            <div class="mb-3">
+                                <label for="stockSymbol" class="form-label">Enter NSE Stock Symbol</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control form-control-lg" id="stockSymbol" placeholder="e.g., RELIANCE, TCS, INFY" required>
-                                    <button class="btn btn-primary btn-lg" type="submit">
-                                        <i class="fas fa-search me-2"></i>Analyze
-                                    </button>
+                                    <input type="text" class="form-control" id="stockSymbol" placeholder="e.g., RELIANCE, TCS, INFY" required>
+                                    <button class="btn btn-primary" type="submit">Analyze</button>
                                 </div>
-                                <div class="form-text mt-2">Enter the stock symbol as listed on NSE (without .NS)</div>
+                                <div class="form-text">Enter the stock symbol as listed on NSE (without .NS)</div>
                             </div>
                         </form>
 
@@ -185,52 +123,48 @@
                             <div class="spinner-border text-primary" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
-                            <p class="mt-3 fw-bold">Analyzing stock data with AI...</p>
+                            <p class="mt-2">Analyzing stock data with AI...</p>
                         </div>
 
                         <div id="resultSection" class="result-section">
                             <div class="highlight-box">
-                                <div class="row align-items-center">
-                                    <div class="col-md-7">
-                                        <h3 id="stockName" class="stock-name mb-3"></h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h3 id="stockName" class="mb-3"></h3>
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span class="metric-label">Current Price:</span>
-                                            <strong id="currentPrice" class="metric-value text-primary fs-5"></strong>
+                                            <span>Current Price:</span>
+                                            <strong id="currentPrice" class="text-primary"></strong>
                                         </div>
                                         <div class="d-flex justify-content-between mb-2">
-                                            <span class="metric-label">1-Month Target:</span>
-                                            <strong id="predictedPrice" class="metric-value fs-5"></strong>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="metric-label">Potential Change:</span>
-                                            <strong id="priceChange" class="metric-value price-change fs-5"></strong>
+                                            <span>1-Month Target:</span>
+                                            <strong id="predictedPrice"></strong>
                                         </div>
                                     </div>
-                                    <div class="col-md-5">
-                                        <div id="recommendation" class="recommendation"></div>
+                                    <div class="col-md-6">
+                                        <div id="recommendation" class="recommendation mt-3"></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="card">
+                            <div class="card mt-3">
                                 <div class="card-header">
-                                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Company Overview</h5>
+                                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Company Summary</h5>
                                 </div>
                                 <div class="card-body">
-                                    <div id="companySummary" class="company-summary"></div>
+                                    <p id="companySummary" class="company-summary"></p>
                                 </div>
                             </div>
 
                             <div class="ai-analysis">
-                                <h5><i class="fas fa-brain me-2"></i>AI Analysis & Investment Summary</h5>
-                                <div id="advancedAnalysis"></div>
+                                <h5><i class="fas fa-brain me-2"></i>AI Analysis</h5>
+                                <p id="advancedAnalysis"></p>
                             </div>
 
                             <div class="row mt-3">
                                 <div class="col-md-6">
-                                    <div class="card h-100">
+                                    <div class="card">
                                         <div class="card-header">
-                                            <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i>Technical Indicators</h5>
+                                            <h5 class="mb-0"><i class="fas fa-tachometer-alt me-2"></i>Technical Analysis</h5>
                                         </div>
                                         <div class="card-body">
                                             <div id="technicalIndicators"></div>
@@ -238,9 +172,9 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="card h-100">
+                                    <div class="card">
                                         <div class="card-header">
-                                            <h5 class="mb-0"><i class="fas fa-calculator me-2"></i>Financial Metrics</h5>
+                                            <h5 class="mb-0"><i class="fas fa-calculator me-2"></i>Financial Analysis</h5>
                                         </div>
                                         <div class="card-body">
                                             <div id="financialMetrics"></div>
@@ -249,8 +183,8 @@
                                 </div>
                             </div>
 
-                            <div class="mt-4 text-end">
-                                <small class="last-updated" id="lastUpdated"></small>
+                            <div class="mt-3 text-end">
+                                <small class="text-muted" id="lastUpdated"></small>
                             </div>
                         </div>
 
@@ -304,22 +238,8 @@
 
         function showError(message) {
             const errorSection = document.getElementById('errorSection');
-            errorSection.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>${message}`;
+            errorSection.textContent = message;
             errorSection.style.display = 'block';
-        }
-
-        function formatAnalysisText(text) {
-            // Convert markdown-like formatting to HTML
-            return text
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // bold
-                .replace(/\*(.*?)\*/g, '<em>$1</em>') // italic
-                .replace(/\n\n/g, '</p><p>') // paragraphs
-                .replace(/\n/g, '<br>') // line breaks
-                .replace(/1\. (.*?)(<br>|$)/g, '<h6 class="mt-3">1. $1</h6>') // numbered headings
-                .replace(/2\. (.*?)(<br>|$)/g, '<h6 class="mt-3">2. $1</h6>')
-                .replace(/3\. (.*?)(<br>|$)/g, '<h6 class="mt-3">3. $1</h6>')
-                .replace(/4\. (.*?)(<br>|$)/g, '<h6 class="mt-3">4. $1</h6>')
-                .replace(/5\. (.*?)(<br>|$)/g, '<h6 class="mt-3">5. $1</h6>');
         }
 
         function displayResults(data) {
@@ -327,31 +247,8 @@
             document.getElementById('stockName').textContent = data.stock;
             document.getElementById('currentPrice').textContent = `₹${data.current_price}`;
             document.getElementById('predictedPrice').textContent = `₹${data.predicted_price_1m}`;
-            
-            // Calculate and display price change
-            const currentPrice = parseFloat(data.current_price);
-            const predictedPrice = parseFloat(data.predicted_price_1m);
-            const changePercent = ((predictedPrice - currentPrice) / currentPrice * 100).toFixed(2);
-            const priceChangeElement = document.getElementById('priceChange');
-            priceChangeElement.textContent = `${changePercent}%`;
-            
-            if (changePercent > 0) {
-                priceChangeElement.className = 'metric-value price-change fs-5 positive';
-                priceChangeElement.innerHTML = `+${changePercent}% <i class="fas fa-arrow-up"></i>`;
-            } else if (changePercent < 0) {
-                priceChangeElement.className = 'metric-value price-change fs-5 negative';
-                priceChangeElement.innerHTML = `${changePercent}% <i class="fas fa-arrow-down"></i>`;
-            } else {
-                priceChangeElement.className = 'metric-value price-change fs-5 neutral';
-                priceChangeElement.innerHTML = `${changePercent}% <i class="fas fa-equals"></i>`;
-            }
-
-            // Format and set company summary
-            document.getElementById('companySummary').innerHTML = formatAnalysisText(data.company_summary);
-            
-            // Format and set advanced analysis
-            document.getElementById('advancedAnalysis').innerHTML = formatAnalysisText(data.advanced_analysis);
-            
+            document.getElementById('companySummary').textContent = data.company_summary;
+            document.getElementById('advancedAnalysis').textContent = data.advanced_analysis;
             document.getElementById('lastUpdated').textContent = `Last updated: ${data.last_updated}`;
 
             // Set recommendation with appropriate class
@@ -366,12 +263,7 @@
                 if (value !== null) {
                     const div = document.createElement('div');
                     div.className = 'technical-indicator';
-                    div.innerHTML = `
-                        <div class="d-flex justify-content-between">
-                            <span class="metric-label">${key.replace(/_/g, ' ')}:</span>
-                            <span class="metric-value">${value}</span>
-                        </div>
-                    `;
+                    div.innerHTML = `<strong>${key.replace(/_/g, ' ')}:</strong> <span class="float-end">${value}</span>`;
                     techIndicators.appendChild(div);
                 }
             }
@@ -383,12 +275,7 @@
                 if (value !== null) {
                     const div = document.createElement('div');
                     div.className = 'financial-metric';
-                    div.innerHTML = `
-                        <div class="d-flex justify-content-between">
-                            <span class="metric-label">${key.replace(/_/g, ' ')}:</span>
-                            <span class="metric-value">${value}</span>
-                        </div>
-                    `;
+                    div.innerHTML = `<strong>${key.replace(/_/g, ' ')}:</strong> <span class="float-end">${value}</span>`;
                     financialMetrics.appendChild(div);
                 }
             }

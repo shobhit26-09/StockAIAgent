@@ -1,18 +1,17 @@
-from flask import Flask, render_template, request, jsonify # type: ignore
-import yfinance as yf # type: ignore
-import pandas as pd # type: ignore
-import numpy as np # type: ignore
+from flask import Flask, render_template, request, jsonify
+import yfinance as yf
+import pandas as pd
+import numpy as np
 from datetime import datetime, timedelta
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor # type: ignore
-from sklearn.model_selection import train_test_split # type: ignore
-from ta import add_all_ta_features # type: ignore
-import pytz # type: ignore
-import requests # type: ignore
-from bs4 import BeautifulSoup # type: ignore
-import google.generativeai as genai # type: ignore
-from dotenv import load_dotenv # type: ignore
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.model_selection import train_test_split
+from ta import add_all_ta_features
+import pytz
+import requests
+from bs4 import BeautifulSoup
+import google.generativeai as genai
+from dotenv import load_dotenv
 import os
-import json
 
 # Load environment variables
 load_dotenv()
@@ -44,30 +43,18 @@ def get_company_summary(symbol):
         
         # Use Gemini to enhance the summary
         prompt = f"""
-        Provide a comprehensive but concise analysis of {company_name} ({symbol}) based on the following information:
+        Provide a comprehensive analysis of the company {company_name} ({symbol}) based on the following information:
         
         Basic Information: {basic_info}
         
-        Structure your response with clear sections using numbered headings:
+        Include:
+        1. Company overview and business segments
+        2. Key strengths and competitive advantages
+        3. Recent developments and growth prospects
+        4. Industry positioning and challenges
         
-        1. **Company Overview**
-        - Business segments and operations
-        - Market position and industry standing
-        
-        2. **Key Strengths**
-        - Competitive advantages
-        - Unique selling propositions
-        
-        3. **Recent Developments**
-        - Notable achievements or expansions
-        - Strategic initiatives
-        
-        4. **Growth Prospects**
-        - Future opportunities
-        - Potential challenges
-        
-        Use bullet points for better readability. Keep the analysis professional but accessible to investors.
-        Maximum 15 bullet points total across all sections.
+        Provide the analysis in clear, professional language suitable for investors.
+        Analysis should not be too detailed,keep it brief and give in proper structure.
         """
         
         response = model.generate_content(prompt)
@@ -81,39 +68,26 @@ def analyze_with_gemini(stock_data, technicals, fundamentals):
     """Use Gemini to provide advanced analysis based on all available data"""
     try:
         prompt = f"""
-        Analyze the following stock data and provide a professional investment analysis for {stock_data['stock']}:
+        Analyze the following stock data and provide a professional investment analysis:
         
-        Current Price: ₹{stock_data['current_price']}
+        Stock: {stock_data['stock']}
+        Current Price: {stock_data['current_price']}
         
-        **Technical Indicators:**
-        {json.dumps(technicals, indent=2)}
+        Technical Indicators:
+        {technicals}
         
-        **Fundamental Analysis:**
-        {json.dumps(fundamentals, indent=2)}
+        Fundamental Analysis:
+        {fundamentals}
         
-        Structure your response with clear sections using numbered headings:
+        Provide:
+        1. Technical analysis interpretation
+        2. Fundamental health assessment
+        3. Valuation analysis
+        4. Risk factors
+        5. Overall investment conclusion
         
-        1. **Technical Analysis Summary**
-        - Key momentum indicators (RSI, MACD)
-        - Trend analysis (Moving Averages)
-        - Volatility assessment
-        
-        2. **Fundamental Health Check**
-        - Valuation metrics (P/E, P/B)
-        - Profitability (ROE, ROA)
-        - Financial stability (Debt ratios)
-        
-        3. **Risk Assessment**
-        - Key risks to consider
-        - Market conditions impact
-        
-        4. **Investment Recommendation**
-        - Short-term outlook
-        - Long-term potential
-        - Final verdict
-        
-        Use bullet points for key findings. Highlight important metrics with **bold**.
-        Keep the analysis concise but insightful (maximum 20 bullet points total).
+        Keep the analysis concise but insightful, focusing on key decision factors.
+        Analysis should not be too detailed,keep it brief and give in proper structure.
         """
         
         response = model.generate_content(prompt)
